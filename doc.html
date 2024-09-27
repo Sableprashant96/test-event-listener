@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Event Listeners with Online/Offline Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .event-log {
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px auto;
+            width: 80%;
+            max-width: 500px;
+            height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test Document Event Listeners</h1>
+    <p>Try interacting with this page (click, keypress) to trigger events. Online/offline status will also be detected.</p>
+    
+    <div class="event-log" id="eventLog">
+        <p>Event logs will appear here...</p>
+    </div>
+
+    <script>
+        // Function to log events
+        function logEvent(eventName, eventDetails) {
+            const logContainer = document.getElementById('eventLog');
+            const newLog = document.createElement('p');
+            newLog.textContent = `${new Date().toLocaleTimeString()}: ${eventName} - ${eventDetails}`;
+            logContainer.appendChild(newLog);
+            logContainer.scrollTop = logContainer.scrollHeight;  // Scroll to bottom
+        }
+
+        // Add document event listeners for DOM events
+        document.addEventListener('click', function(event) {
+            logEvent('Document Click', `Coordinates: (${event.clientX}, ${event.clientY})`);
+        });
+
+        document.addEventListener('keypress', function(event) {
+            logEvent('Key Press', `Key: ${event.key}`);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            logEvent('DOMContentLoaded', 'The DOM is fully loaded');
+        });
+
+        // Online/Offline detection
+        document.addEventListener('online', function() {
+            console.log("online")
+            logEvent('Network Status', 'Back Online');
+        });
+
+        document.addEventListener('offline', function() {
+            logEvent('Network Status', 'Offline');
+        });
+
+        // Initial online/offline status check
+        // if (navigator.onLine) {
+        //     logEvent('Initial Network Status', 'Online');
+        // } else {
+        //     logEvent('Initial Network Status', 'Offline');
+        // }
+
+    </script>
+
+</body>
+</html>
